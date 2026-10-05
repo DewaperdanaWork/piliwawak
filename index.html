@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruang Kita | PILIWAWAK</title>
+    <title>Ruang Kita | Efirly & Pasangan</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for typography -->
@@ -99,14 +99,15 @@
         <div class="glass-card rounded-2xl p-8 max-w-sm w-full text-center shadow-xl">
             <i class="fas fa-heart text-rose-400 text-4xl mb-4 animate-pulse"></i>
             <h1 class="text-2xl font-serif font-semibold text-rose-800 mb-2">Ruang Rahasia Kita</h1>
-            <p class="text-sm text-gray-500 mb-6">Masukkan kata sandi cengg. <br><span class="text-xs italic">(Clue: Tanggal jadian kita DDMMYYYY)</span></p>
+            <p class="text-sm text-gray-500 mb-6">Masukkan kata sandi untuk membuka kenangan. <br><span class="text-xs italic">(Clue: Tanggal jadian kita DDMMYYYY)</span></p>
             
             <input type="password" id="password-input" placeholder="Kata Sandi" 
                    class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-400 bg-white/50 text-center text-lg mb-4 tracking-widest">
             
             <p id="error-msg" class="text-rose-500 text-sm hidden mb-4">Kata sandi salah, sayang. Coba lagi ya.</p>
             
-            <button onclick="checkPassword()" class="w-full bg-rose-400 hover:bg-rose-500 text-white font-semibold py-3 rounded-xl transition shadow-md shadow-rose-200">
+            <!-- Tambahkan type="button" di sini agar tidak me-refresh halaman -->
+            <button type="button" onclick="checkPassword()" class="w-full bg-rose-400 hover:bg-rose-500 text-white font-semibold py-3 rounded-xl transition shadow-md shadow-rose-200">
                 Buka Gembok <i class="fas fa-unlock-alt ml-2"></i>
             </button>
         </div>
@@ -125,8 +126,8 @@
             <div class="inline-block p-3 rounded-full bg-rose-100 text-rose-500 mb-4 shadow-sm">
                 <i class="fas fa-dove text-2xl"></i>
             </div>
-            <h1 class="text-4xl md:text-5xl font-serif font-bold text-rose-800 mb-3">Hi, Efirly Sarfio (MyLopp)</h1>
-            <p class="text-lg text-rose-600/80 italic font-serif">Selamat datang di museum kecil perjalanan kita.Cekakakk</p>
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-rose-800 mb-3">Halo, Efirly Sarfio</h1>
+            <p class="text-lg text-rose-600/80 italic font-serif">Selamat datang di museum kecil perjalanan kita.</p>
         </header>
 
         <!-- Timer Section -->
@@ -196,28 +197,28 @@
                 id: 1,
                 targetDate: new Date("2026-06-27T00:00:00"),
                 title: "Bulan Pertama",
-                poem: "Sebulan tuh rasanya cepet banget, Karena kita udah klop dari sebelumnya.<br>Jokes nyambung, Mindset sama, Hobi sama (makan) <br> Jadi ya gitu deh Cengg
+                poem: "Sebulan tuh rasanya cepet banget, Karena kita udah klop dari sebelumnya.<br>Jokes nyambung, Mindset sama, Hobi sama (makan) <br> Jadi ya gitu deh Cengg",
                 img: "https://placehold.co/600x400/ffe4e6/9f1239?text=27+Juni+2026"
             },
             {
                 id: 2,
                 targetDate: new Date("2026-07-27T00:00:00"),
                 title: "Dua Bulan Berlalu",
-                poem: "Kita mulai aktif ngonten bareng (its my dream btw)<br>Maaf kalau aku terlalu Alpha yah, aku ga maksud begitu kok cenggg<br>Terima kasih sudah bertahan ya cengg"
+                poem: "Kita mulai aktif ngonten bareng (its my dream btw)<br>Maaf kalau aku terlalu Alpha yah, aku ga maksud begitu kok cenggg<br>Terima kasih sudah bertahan ya cengg",
                 img: "https://placehold.co/600x400/fecdd3/9f1239?text=27+Juli+2026"
             },
             {
                 id: 3,
                 targetDate: new Date("2026-08-27T00:00:00"),
                 title: "Bulan Ketiga",
-                poem: "Jalan-Jalan sama kamu selalu jadi favoritku cenggg, apalagi pas ke Curug bareng Mas R dan Ce Ela hehe<br>Ngelihat kamu senyum, dan ketiduran di atas motor juga jadi favoritku btw"
+                poem: "Jalan-Jalan sama kamu selalu jadi favoritku cenggg, apalagi pas ke Curug bareng Mas R dan Ce Ela hehe<br>Ngelihat kamu senyum, dan ketiduran di atas motor juga jadi favoritku btw",
                 img: "https://placehold.co/600x400/fda4af/fff?text=27+Agustus+2026"
             },
             {
                 id: 4,
                 targetDate: new Date("2026-09-27T00:00:00"),
                 title: "Bulan Keempat",
-                poem: "Di bulan ini, kita masih berusaha untuk mengenali satu sama lain<br>Jadi ya wajar kok, kalau kita masih belum paham dengan pasangan kita<br> Tapi satu hal yang harus kamu tau, kalo aku tetap sayang kamu kok, dan gapernah bermaksud untuk menyakiti kamu
+                poem: "Di bulan ini, kita masih berusaha untuk mengenali satu sama lain<br>Jadi ya wajar kok, kalau kita masih belum paham dengan pasangan kita<br> Tapi satu hal yang harus kamu tau, kalo aku tetap sayang kamu kok, dan gapernah bermaksud untuk menyakiti kamu",
                 img: "https://placehold.co/600x400/fb7185/fff?text=27+September+2026"
             },
             {
@@ -231,36 +232,52 @@
 
         // --- 2. AUTHENTICATION LOGIC ---
         function checkPassword() {
-            const input = document.getElementById('password-input').value;
-            const errorMsg = document.getElementById('error-msg');
-            const loginScreen = document.getElementById('login-screen');
-            const mainContent = document.getElementById('main-content');
+            try {
+                const inputEl = document.getElementById('password-input');
+                const errorMsg = document.getElementById('error-msg');
+                const loginScreen = document.getElementById('login-screen');
+                const mainContent = document.getElementById('main-content');
 
-            if (input === CONSTANTS.PASSWORD) {
-                // Success
-                loginScreen.classList.add('opacity-0');
-                setTimeout(() => {
-                    loginScreen.classList.add('hidden');
-                    mainContent.classList.remove('hidden');
-                    mainContent.classList.add('fade-in');
-                    initMainApp();
-                }, 500);
-            } else {
-                // Fail
-                errorMsg.classList.remove('hidden');
-                document.getElementById('password-input').classList.add('shake');
-                setTimeout(() => {
-                    document.getElementById('password-input').classList.remove('shake');
-                }, 500);
+                // Pengaman jika elemen tidak sengaja terhapus
+                if (!inputEl || !errorMsg || !loginScreen || !mainContent) {
+                    console.error("Ada elemen HTML yang hilang (id tidak cocok).");
+                    return;
+                }
+
+                const input = inputEl.value;
+
+                if (input === CONSTANTS.PASSWORD) {
+                    // Success
+                    loginScreen.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loginScreen.classList.add('hidden');
+                        mainContent.classList.remove('hidden');
+                        mainContent.classList.add('fade-in');
+                        initMainApp();
+                    }, 500);
+                } else {
+                    // Fail
+                    errorMsg.classList.remove('hidden');
+                    inputEl.classList.add('shake');
+                    setTimeout(() => {
+                        inputEl.classList.remove('shake');
+                    }, 500);
+                }
+            } catch (error) {
+                console.error("Terjadi kesalahan sistem:", error);
             }
         }
 
-        // Allow 'Enter' key to submit
-        document.getElementById('password-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
+        // Allow 'Enter' key to submit (dengan pengaman)
+        const passInput = document.getElementById('password-input');
+        if (passInput) {
+            passInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Mencegah reload halaman
+                    checkPassword();
+                }
+            });
+        }
 
         // --- 3. MAIN APPLICATION INITIALIZATION ---
         function initMainApp() {
