@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Kita | PILIWAWAK</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        rose: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            800: '#9f1239',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            background-color: #fff1f2;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Floating Hearts Background Animation */
+        .heart-bg {
+            position: fixed;
+            top: -10vh;
+            transform: translateY(0);
+            animation: fall 10s linear infinite;
+            color: rgba(253, 164, 175, 0.3);
+            z-index: -1;
+            font-size: 1.5rem;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Lock Shake Animation */
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            animation: fadeIn 1s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased font-sans">
+
+    <!-- Background Decoration -->
+    <div id="hearts-container"></div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-rose-50 px-4 transition-opacity duration-500">
+        <div class="glass-card rounded-2xl p-8 max-w-sm w-full text-center shadow-xl">
+            <i class="fas fa-heart text-rose-400 text-4xl mb-4 animate-pulse"></i>
+            <h1 class="text-2xl font-serif font-semibold text-rose-800 mb-2">Ruang Rahasia Kita</h1>
+            <p class="text-sm text-gray-500 mb-6">Masukkan kata sandi cengg. <br><span class="text-xs italic">(Clue: Tanggal jadian kita DDMMYYYY)</span></p>
+            
+            <input type="password" id="password-input" placeholder="Kata Sandi" 
+                   class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-400 bg-white/50 text-center text-lg mb-4 tracking-widest">
+            
+            <p id="error-msg" class="text-rose-500 text-sm hidden mb-4">Kata sandi salah, sayang. Coba lagi ya.</p>
+            
+            <button onclick="checkPassword()" class="w-full bg-rose-400 hover:bg-rose-500 text-white font-semibold py-3 rounded-xl transition shadow-md shadow-rose-200">
+                Buka Gembok <i class="fas fa-unlock-alt ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT (Hidden Initially) -->
+    <div id="main-content" class="hidden min-h-screen pb-20">
+        
+        <!-- Birthday Banner (Hidden by default, shown conditionally) -->
+        <div id="birthday-banner" class="hidden bg-rose-500 text-white text-center py-3 px-4 shadow-md z-40 relative">
+            <p class="font-serif text-lg"><i class="fas fa-birthday-cake mr-2"></i> Selamat Ulang Tahun yang ke-<span id="age"></span>, Efirly Sayang! <i class="fas fa-gift ml-2"></i></p>
+        </div>
+
+        <!-- Hero Section -->
+        <header class="pt-16 pb-12 px-6 text-center">
+            <div class="inline-block p-3 rounded-full bg-rose-100 text-rose-500 mb-4 shadow-sm">
+                <i class="fas fa-dove text-2xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-rose-800 mb-3">Hi, Efirly Sarfio (MyLopp)</h1>
+            <p class="text-lg text-rose-600/80 italic font-serif">Selamat datang di museum kecil perjalanan kita.Cekakakk</p>
+        </header>
+
+        <!-- Timer Section -->
+        <section class="max-w-3xl mx-auto px-4 mb-16">
+            <div class="glass-card rounded-3xl p-6 md:p-10 text-center shadow-lg border-rose-100 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-300 via-rose-400 to-rose-300"></div>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-rose-400 mb-6">Kita Telah Bersama Selama</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <div class="bg-white/60 rounded-2xl p-4 shadow-sm">
+                        <span id="timer-days" class="block text-4xl md:text-5xl font-bold text-rose-700 mb-1">00</span>
+                        <span class="text-xs font-semibold text-gray-500 uppercase">Hari</span>
+                    </div>
+                    <div class="bg-white/60 rounded-2xl p-4 shadow-sm">
+                        <span id="timer-hours" class="block text-4xl md:text-5xl font-bold text-rose-700 mb-1">00</span>
+                        <span class="text-xs font-semibold text-gray-500 uppercase">Jam</span>
+                    </div>
+                    <div class="bg-white/60 rounded-2xl p-4 shadow-sm">
+                        <span id="timer-mins" class="block text-4xl md:text-5xl font-bold text-rose-700 mb-1">00</span>
+                        <span class="text-xs font-semibold text-gray-500 uppercase">Menit</span>
+                    </div>
+                    <div class="bg-white/60 rounded-2xl p-4 shadow-sm">
+                        <span id="timer-secs" class="block text-4xl md:text-5xl font-bold text-rose-700 mb-1">00</span>
+                        <span class="text-xs font-semibold text-gray-500 uppercase">Detik</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-sm text-gray-500">Sejak 27 Mei 2026</p>
+            </div>
+        </section>
+
+        <!-- Memories Timeline Section -->
+        <section class="max-w-2xl mx-auto px-4">
+            <div class="flex items-center justify-center space-x-4 mb-10 text-rose-800">
+                <div class="h-px bg-rose-200 flex-1"></div>
+                <h2 class="text-2xl font-serif font-bold text-center"><i class="fas fa-book-open mr-2 text-rose-400"></i> Arsip Kenangan</h2>
+                <div class="h-px bg-rose-200 flex-1"></div>
+            </div>
+
+            <!-- Timeline Container -->
+            <div id="timeline-container" class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-rose-200 before:via-rose-300 before:to-rose-100">
+                <!-- Javascript will inject memories here -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 text-center text-gray-400 text-sm">
+            <p>Dibuat dengan <i class="fas fa-heart text-rose-400 animate-pulse"></i> khusus untukmu.</p>
+            <p class="mt-1 opacity-70">Sampai ketemu di tanggal 27 berikutnya ya!</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURATION & DATA ---
+        const CONSTANTS = {
+            PASSWORD: "27052026",
+            START_DATE: new Date("2026-05-27T00:00:00"),
+            BIRTHDAY_MONTH: 5, // June is 5 (0-indexed in JS)
+            BIRTHDAY_DATE: 22,
+            BIRTH_YEAR: 2003,
+            ANNIVERSARY_DATE: 27
+        };
+
+        // Mock Database of Memories (Chronological)
+        // Note: For preview purposes, we simulate entries for June to October 2026.
+        const memoriesData = [
+            {
+                id: 1,
+                targetDate: new Date("2026-06-27T00:00:00"),
+                title: "Bulan Pertama",
+                poem: "Sebulan tuh rasanya cepet banget, Karena kita udah klop dari sebelumnya.<br>Jokes nyambung, Mindset sama, Hobi sama (makan) <br> Jadi ya gitu deh Cengg
+                img: "https://placehold.co/600x400/ffe4e6/9f1239?text=27+Juni+2026"
+            },
+            {
+                id: 2,
+                targetDate: new Date("2026-07-27T00:00:00"),
+                title: "Dua Bulan Berlalu",
+                poem: "Kita mulai aktif ngonten bareng (its my dream btw)<br>Maaf kalau aku terlalu Alpha yah, aku ga maksud begitu kok cenggg<br>Terima kasih sudah bertahan ya cengg"
+                img: "https://placehold.co/600x400/fecdd3/9f1239?text=27+Juli+2026"
+            },
+            {
+                id: 3,
+                targetDate: new Date("2026-08-27T00:00:00"),
+                title: "Bulan Ketiga",
+                poem: "Jalan-Jalan sama kamu selalu jadi favoritku cenggg, apalagi pas ke Curug bareng Mas R dan Ce Ela hehe<br>Ngelihat kamu senyum, dan ketiduran di atas motor juga jadi favoritku btw"
+                img: "https://placehold.co/600x400/fda4af/fff?text=27+Agustus+2026"
+            },
+            {
+                id: 4,
+                targetDate: new Date("2026-09-27T00:00:00"),
+                title: "Bulan Keempat",
+                poem: "Di bulan ini, kita masih berusaha untuk mengenali satu sama lain<br>Jadi ya wajar kok, kalau kita masih belum paham dengan pasangan kita<br> Tapi satu hal yang harus kamu tau, kalo aku tetap sayang kamu kok, dan gapernah bermaksud untuk menyakiti kamu
+                img: "https://placehold.co/600x400/fb7185/fff?text=27+September+2026"
+            },
+            {
+                id: 5,
+                targetDate: new Date("2026-10-27T00:00:00"),
+                title: "Kejutan Bulan Kelima",
+                poem: "Hanya untukmu, yang selalu ada.<br>Bulan ini, cintaku padamu bertambah dua kali lipat.<br>Aku mencintaimu lebih dari hari kemarin.",
+                img: "https://placehold.co/600x400/f43f5e/fff?text=27+Oktober+2026"
+            }
+        ];
+
+        // --- 2. AUTHENTICATION LOGIC ---
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            const errorMsg = document.getElementById('error-msg');
+            const loginScreen = document.getElementById('login-screen');
+            const mainContent = document.getElementById('main-content');
+
+            if (input === CONSTANTS.PASSWORD) {
+                // Success
+                loginScreen.classList.add('opacity-0');
+                setTimeout(() => {
+                    loginScreen.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('fade-in');
+                    initMainApp();
+                }, 500);
+            } else {
+                // Fail
+                errorMsg.classList.remove('hidden');
+                document.getElementById('password-input').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('password-input').classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        // Allow 'Enter' key to submit
+        document.getElementById('password-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // --- 3. MAIN APPLICATION INITIALIZATION ---
+        function initMainApp() {
+            startTimer();
+            checkBirthdayEvent();
+            renderTimeline();
+            createFloatingHearts();
+        }
+
+        // --- 4. RELATIONSHIP TIMER ---
+        function startTimer() {
+            const daysEl = document.getElementById('timer-days');
+            const hoursEl = document.getElementById('timer-hours');
+            const minsEl = document.getElementById('timer-mins');
+            const secsEl = document.getElementById('timer-secs');
+
+            function update() {
+                const now = new Date();
+                const diff = now - CONSTANTS.START_DATE;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const mins = Math.floor((diff / 1000 / 60) % 60);
+                const secs = Math.floor((diff / 1000) % 60);
+
+                daysEl.innerText = days;
+                hoursEl.innerText = hours.toString().padStart(2, '0');
+                minsEl.innerText = mins.toString().padStart(2, '0');
+                secsEl.innerText = secs.toString().padStart(2, '0');
+            }
+
+            update(); // Initial call
+            setInterval(update, 1000);
+        }
+
+        // --- 5. BIRTHDAY EVENT TRIGGER ---
+        function checkBirthdayEvent() {
+            const today = new Date();
+            if (today.getMonth() === CONSTANTS.BIRTHDAY_MONTH && today.getDate() === CONSTANTS.BIRTHDAY_DATE) {
+                const age = today.getFullYear() - CONSTANTS.BIRTH_YEAR;
+                document.getElementById('age').innerText = age;
+                document.getElementById('birthday-banner').classList.remove('hidden');
+            }
+        }
+
+        // --- 6. TIMELINE & TIME-LOCK LOGIC ---
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            const today = new Date();
+            
+            // Reverse order to show newest first
+            const sortedMemories = [...memoriesData].reverse();
+
+            sortedMemories.forEach((memory, index) => {
+                const isLocked = today < memory.targetDate;
+                const dateString = memory.targetDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                // Alignment logic for alternating timeline items on desktop
+                const isEven = index % 2 === 0;
+                const containerClasses = `relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group fade-in`;
+                const delay = index * 0.2; // Staggered animation
+
+                let contentHTML = "";
+
+                if (isLocked) {
+                    // LOCKED UI
+                    contentHTML = `
+                        <!-- Timeline Marker -->
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-gray-300 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 relative left-5 md:left-0">
+                            <i class="fas fa-lock text-gray-500 text-sm"></i>
+                        </div>
+                        <!-- Card -->
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card rounded-2xl p-6 text-center shadow border-dashed border-2 border-gray-300 opacity-80">
+                            <i class="fas fa-gift text-3xl text-gray-400 mb-3 block"></i>
+                            <h3 class="text-lg font-serif font-bold text-gray-600 mb-1">Kejutan Terkunci</h3>
+                            <p class="text-sm text-gray-500 mb-3">Tersedia pada <br><b>${dateString}</b></p>
+                            <span class="inline-block px-3 py-1 bg-gray-200 text-gray-600 text-xs rounded-full shadow-inner">Sabar ya sayang ❤️</span>
+                        </div>
+                    `;
+                } else {
+                    // UNLOCKED UI
+                    contentHTML = `
+                        <!-- Timeline Marker -->
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-rose-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 relative left-5 md:left-0">
+                            <i class="fas fa-heart text-white text-xs"></i>
+                        </div>
+                        <!-- Card -->
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card rounded-2xl p-0 overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white">
+                            <img src="${memory.img}" alt="Kenangan ${dateString}" class="w-full h-48 object-cover filter hover:brightness-110 transition">
+                            <div class="p-6">
+                                <span class="text-xs font-bold text-rose-400 tracking-wider uppercase mb-2 block"><i class="far fa-calendar-alt mr-1"></i> ${dateString}</span>
+                                <h3 class="text-xl font-serif font-bold text-rose-800 mb-3">${memory.title}</h3>
+                                <div class="font-serif italic text-gray-700 bg-rose-50 p-4 rounded-xl border-l-4 border-rose-300 text-sm md:text-base leading-relaxed">
+                                    "${memory.poem}"
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const wrapper = document.createElement('div');
+                wrapper.className = containerClasses;
+                wrapper.style.animationDelay = `${delay}s`;
+                wrapper.innerHTML = contentHTML;
+                container.appendChild(wrapper);
+            });
+        }
+
+        // --- 7. AMBIENCE EFFECTS ---
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const symbols = ['❤', '✿', '✨'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-bg';
+                heart.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heart.style.fontSize = `${Math.random() * 1 + 0.5}rem`;
+                container.appendChild(heart);
+            }
+        }
+
+    </script>
+</body>
+</html>
